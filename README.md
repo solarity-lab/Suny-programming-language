@@ -63,7 +63,7 @@ This **is** a learning tool.
 
 ### Requirements
 
-* **OS**: Windows 10+
+* **OS**: Windows 10+ 🪟 and Linux 🐧 (new)
 * **Compiler**: MinGW (GCC) or MSVC
 * **Tools**: `make`
 
@@ -104,6 +104,7 @@ suny.exe
 
 * If you want to **learn how languages are built** ✅
 * If you read kernel / VM code for fun ✅
+
 
 
 
