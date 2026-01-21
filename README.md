@@ -88,7 +88,7 @@ suny.exe
 ## Documentation & Videos
 
 * 📄 **Language spec & internals**:
-  👉 [SRM1 Document (PDF)](./docs/SRM1/document.pdf)
+  👉 [SRM1 Document (PDF)](./SRM/SRM1/document.pdf)
 
 * 🎥 **Implementation walkthroughs & dev logs**:
   👉 [https://www.youtube.com/@haidinhson](https://www.youtube.com/@haidinhson)
@@ -104,6 +104,7 @@ suny.exe
 
 * If you want to **learn how languages are built** ✅
 * If you read kernel / VM code for fun ✅
+
 
 
 
