@@ -2,8 +2,7 @@
   <img src="assets/logo-removebg-preview.png" alt="logo" width="200"/>
 </p>
 
-
-# Suny Programming Language
+# 🌇 Suny Programming Language
 
 **Suny** is a small programming language built from scratch in **pure C**,
 designed to help you understand **how interpreters, VMs, and language runtimes actually work** — without magic.
@@ -13,7 +12,7 @@ designed to help you understand **how interpreters, VMs, and language runtimes a
 
 ---
 
-## What is Suny?
+## What is Suny? 👀
 
 Suny is a **minimal, educational programming language** with a strong focus on **language internals**, not end-user features.
 
@@ -28,7 +27,7 @@ There are no hidden layers, no external runtime, and no black boxes.
 
 ---
 
-## Goals
+## Goals 🎯
 
 Suny focuses on the core ideas behind real languages:
 
@@ -45,7 +44,7 @@ This **is** a language you read to learn.
 
 ---
 
-## Example
+## Example ✨
 
 ```suny
 import "HashMap"
@@ -71,7 +70,7 @@ No hidden magic.
 
 ---
 
-## Why Suny?
+## Why Suny? 🚀
 
 * Written in **pure C**
 * No external runtime or VM dependencies
@@ -85,16 +84,16 @@ Suny exists to answer questions like:
 
 ---
 
-## Who is this for?
+## Who is this for? 👨‍💻👩‍💻
 
-### You should use Suny if:
+### ✅ You should use Suny if:
 
 * You want to learn how programming languages are implemented
 * You are curious about interpreters, VMs, or compilers
 * You enjoy low-level or systems programming
 * You like reading real runtime code
 
-### You should NOT use Suny if:
+### ❌ You should NOT use Suny if:
 
 * You want a fast, production-ready language
 * You want high-level abstractions without touching memory
@@ -102,7 +101,7 @@ Suny exists to answer questions like:
 
 ---
 
-## Build & Run
+## Build & Run 🛠️
 
 ### Requirements
 
@@ -130,16 +129,10 @@ This is the Suny interpreter entry point.
 
 ---
 
-## Documentation
+## Documentation 📚
 
-* **Language specification & internals**
+* 📄 **Language specification & internals**
   [SRM1 Document (PDF)](./SRM/SRM1/document.pdf)
 
-* **Implementation walkthroughs & dev logs**
+* 🎥 **Implementation walkthroughs & dev logs**
   [https://www.youtube.com/@haidinhson](https://www.youtube.com/@haidinhson)
-
-
-
-
-
-
