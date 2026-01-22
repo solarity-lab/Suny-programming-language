@@ -2,13 +2,12 @@
   <img src="assets/logo-removebg-preview.png" alt="logo" width="200"/>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/language-C-red?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/runtime-from%20scratch-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/purpose-educational-blueviolet?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/no%20magic-true-black?style=for-the-badge" />
-</p>
-
+![GitHub Stars](https://img.shields.io/github/stars/solarity-lab/Suny?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/solarity-lab/Suny?style=social)
+![Repo Size](https://img.shields.io/github/repo-size/solarity-lab/Suny)
+![Issues](https://img.shields.io/github/issues/solarity-lab/Suny)
+![License](https://img.shields.io/github/license/solarity-lab/Suny)
+![C](https://img.shields.io/badge/Made%20with-C-red.svg)
 
 # 🌇 Suny Programming Language
 
@@ -146,3 +145,4 @@ This is the Suny interpreter entry point.
   [https://www.youtube.com/@haidinhson](https://www.youtube.com/@haidinhson)
 
 [![Star History Chart](https://api.star-history.com/svg?repos=solarity-lab/Suny&type=Date)](https://star-history.com/#solarity-lab/Suny&Date)
+
