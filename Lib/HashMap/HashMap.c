@@ -139,7 +139,9 @@ int SHashMap_store_item(struct Sobj* obj, struct Sobj* key, struct Sobj* value) 
 
             return 0;
         }
-    }
+    } 
 
-    return -1;
+    HashMapPush(map, key, value);
+
+    return 0;
 }

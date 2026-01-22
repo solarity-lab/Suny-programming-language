@@ -7,6 +7,8 @@ struct Sobj* ShashMap(struct Sframe* frame) {
         return null_obj;
     }
 
+    _SUNYINCREF(mapl);
+
     struct Sobj* map = Sobj_make_hashmap(mapl->f_type->f_list);
 
     return map;
