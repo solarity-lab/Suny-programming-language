@@ -1,6 +1,7 @@
-<div style="text-align: center;">
-    <img src="assets/logo.png" alt="logo" width="300"/>
-</div>
+<p align="center">
+  <img src="assets/logo.png" alt="logo" width="150"/>
+</p>
+
 
 # 🌇 Suny Programming Language
 
@@ -136,3 +137,4 @@ This is the Suny interpreter entry point.
 
 * 🎥 **Implementation walkthroughs & dev logs**
   [https://www.youtube.com/@haidinhson](https://www.youtube.com/@haidinhson)
+
