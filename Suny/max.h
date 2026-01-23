@@ -7,4 +7,4 @@
 #define DEFAULT_MAX 1024
 #define MAX_LABEL_SIZE 1024
 
-#endif
+#endif  // MAX_H

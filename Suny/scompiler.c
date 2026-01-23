@@ -938,7 +938,7 @@ Scompiler_compile_ast_import
     SUNY_FUNCTION func = SUNY_GET_FUNCTION_FROM(module, "Smain");
 
     if (!func) {
-        char* message = Sstring("Cannot find function '%s'", file);
+        char* message = Sstring("Cannot find function Smain '%s'", file);
         Serror_compiler_error(message, ast);
     }
 

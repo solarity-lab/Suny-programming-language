@@ -15,8 +15,8 @@ static int compare_raw(struct Sobj* a, struct Sobj* b, int op) {
     int y = b->value->value;
 
     if (op == CMP_EQ)  return x == y;
-    if (op == CMP_LT)  return x <  y;
-    if (op == CMP_GT)  return x >  y;
+    if (op == CMP_LT)  return x < y;
+    if (op == CMP_GT)  return x > y;
     if (op == CMP_NEQ) return x != y;
     if (op == CMP_GE)  return x >= y;
     if (op == CMP_LE)  return x <= y;
