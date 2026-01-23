@@ -120,7 +120,7 @@ Suny exists to answer questions like:
 
 ```bash
 git clone https://github.com/solarity-lab/Suny.git
-cd Suny
+cd Suny/Suny
 make
 ```
 
@@ -145,5 +145,6 @@ This is the Suny interpreter entry point.
   [https://www.youtube.com/@haidinhson](https://www.youtube.com/@haidinhson)
 
 [![Star History Chart](https://api.star-history.com/svg?repos=solarity-lab/Suny&type=Date)](https://star-history.com/#solarity-lab/Suny&Date)
+
 
 
