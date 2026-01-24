@@ -142,9 +142,10 @@ This is the Suny interpreter entry point.
   [SRM1 Document (PDF)](./SRM/SRM1/document.pdf)
 
 * 🎥 **Implementation walkthroughs & dev logs**
-  [https://www.youtube.com/@haidinhson](https://www.youtube.com/@haidinhson)
+  [https://www.youtube.com/@haidinhson](https://www.youtube.com/@SolarityLabOfficial)
 
 [![Star History Chart](https://api.star-history.com/svg?repos=solarity-lab/Suny&type=Date)](https://star-history.com/#solarity-lab/Suny&Date)
+
 
 
 
