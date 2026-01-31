@@ -1,7 +1,6 @@
 #ifndef SOBJ_H
 #define SOBJ_H
 
-#include "score.h"
 #include "stype.h"
 #include "sclass.h"
 #include "sstr.h"
@@ -106,3 +105,4 @@ struct Sobj*
 Sobj_make_type(enum Sobj_t type);
 
 #endif // SOBJ_H
+
