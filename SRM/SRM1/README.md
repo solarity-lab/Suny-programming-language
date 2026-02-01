@@ -141,10 +141,10 @@ This simple example already shows Suny’s core design principle: **clarity and 
 The `print` function is versatile. Here are a few variations:
 
 ```suny
-print(123)                  -- prints a number
-print("Suny %s" % "Language")   -- sub string with %
-print(10 + 20)              -- prints the result of an expression
-print(null)                  -- prints "null"
+print(123)                          # prints a number
+print("Suny %s" % "Language")       # sub string with %
+print(10 + 20)                      # prints the result of an expression
+print(null)                         # prints "null"
 ```
 
 Output:
@@ -874,9 +874,9 @@ class Vector do
     x = null
     y = null
 
-    function __init__(self, X, Y) do
-        self.x = X
-        self.y = Y
+    function __init__(self, x, y) do
+        self.x = x
+        self.y = y
         return self
     end
 end
@@ -905,9 +905,9 @@ class Vector do
     x = null
     y = null
 
-    function __init__(self, X, Y) do
-        self.x = X
-        self.y = Y
+    function __init__(self, x, y) do
+        self.x = x
+        self.y = y
         return self
     end
 
