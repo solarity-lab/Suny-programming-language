@@ -11,17 +11,19 @@
 
 # 🌇 Suny Programming Language
 
-**Suny** is a small programming language built from scratch in **pure C**,
+**Suny** is a programming language built from scratch in **pure C**,
 designed to help you understand **how interpreters, VMs, and language runtimes actually work** — without magic.
 
 > If you enjoy reading compiler or VM source code more than tutorials,
 > **Suny is for you.**
 
+Suny is not a wrapper around existing tools. It does not rely on parser generators. It does not use external VMs. Everything — from lexer to memory manager — is implemented manually.
+
 ---
 
 ## What is Suny? 👀
 
-Suny is a **minimal, educational programming language** with a strong focus on **language internals**, not end-user features.
+Suny is a small but complete language implementation focused on transparency and language internals.
 
 It is designed to be:
 
@@ -46,8 +48,23 @@ Suny focuses on the core ideas behind real languages:
 
 Everything is implemented **by hand**, in C.
 
-This is **not** a production language.
-This **is** a language you read to learn.
+* Suny prioritizes clarity over performance and simplicity over features.
+
+---
+
+## Architecture Overview 🧠
+
+Suny follows a traditional language pipeline:
+
+Source Code  
+→ Lexer  
+→ Parser  
+→ AST
+→ Compiler
+→ Runtime Execution  
+→ Garbage Collection  
+
+All implemented manually in C.
 
 ---
 
@@ -162,5 +179,6 @@ Or you can install binary version of Suny using [this link](https://github.com/d
 
 * 🎥 **Implementation walkthroughs & dev logs**
   [https://www.youtube.com/@haidinhson](https://www.youtube.com/@SolarityLabOfficial)
+
 
 
