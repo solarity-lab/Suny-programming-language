@@ -630,10 +630,10 @@ This simple example already shows Suny’s core design principle: **clarity and 
 The `print` function is versatile. Here are a few variations:
 
 ```suny
-#print(123)                          # prints a number
-#print("Suny %s" % "Language")       # sub string with %
-#print(10 + 20)                      # prints the result of an expression
-#print(null)                         # prints "null"
+print(123)                          # prints a number
+print("Suny %s" % "Language")       # sub string with %
+print(10 + 20)                      # prints the result of an expression
+print(null)                         # prints "null"
 ```
 
 Output:
@@ -757,12 +757,12 @@ Suny supports a rich set of operators for performing **arithmetic calculations**
 Arithmetic operators allow you to perform basic mathematical calculations.
 
 ```suny
-#print(2 + 3)       # Addition: 5
-#print(5 - 2)       # Subtraction: 3
-#print(4 * 2)       # Multiplication: 8
-#print(10 / 2)      # Division: 5.0
-#print(10 % 2)      # modulo: 1
-#print((1 + 2) * 3) # Parentheses control order: 9
+print(2 + 3)       # Addition: 5
+print(5 - 2)       # Subtraction: 3
+print(4 * 2)       # Multiplication: 8
+print(10 / 2)      # Division: 5.0
+print(10 % 2)      # modulo: 1
+print((1 + 2) * 3) # Parentheses control order: 9
 ```
 
 #### Explanation:
@@ -781,12 +781,12 @@ Arithmetic operators allow you to perform basic mathematical calculations.
 Comparison operators compare two values and return a **Boolean result** (`true` or `false`).
 
 ```suny
-#print(3 < 5)    # true
-#print(5 > 3)    # true
-#print(2 == 2)   # true
-#print(2 <= 3)   # true
-#print(5 >= 5)   # true
-#print(10 != 5)  # true
+print(3 < 5)    # true
+print(5 > 3)    # true
+print(2 == 2)   # true
+print(2 <= 3)   # true
+print(5 >= 5)   # true
+print(10 != 5)  # true
 ```
 
 #### Explanation:
@@ -805,14 +805,14 @@ Comparison operators compare two values and return a **Boolean result** (`true` 
 In Suny, comparisons generally make sense when values are of the same type. For example:
 
 ```suny
-#print("apple" == "apple")   # true
-#print("apple" == "banana")  # false
+print("apple" == "apple")   # true
+print("apple" == "banana")  # false
 ```
 
 Comparing numbers and strings directly is not allowed and will raise an error:
 
 ```suny
-#print(5 == "5")  # Error: cannot compare number and string
+print(5 == "5")  # Error: cannot compare number and string
 ```
 
 This design keeps Suny simple and predictable.
@@ -825,10 +825,10 @@ The results of comparisons are Boolean values: `true` or `false`.
 
 ```suny
 a = (5 > 3)
-#print(a)    # true
+print(a)    # true
 
 b = (10 == 2)
-#print(b)    # false
+print(b)    # false
 ```
 
 These Boolean results are often used in **if statements** and **loops** (explained in later chapters).
@@ -847,8 +847,8 @@ When multiple operators appear in the same expression, Suny follows a **preceden
 Example:
 
 ```suny
-#print(2 + 3 * 4)    # 14, because * has higher precedence
-#print((2 + 3) * 4)  # 20, because () overrides precedence
+print(2 + 3 * 4)    # 14, because * has higher precedence
+print((2 + 3) * 4)  # 20, because () overrides precedence
 ```
 
 ---
@@ -887,11 +887,11 @@ This makes globals powerful, but also dangerous—if too many parts of your code
 a = 1  
 b = 2  
 
-#print(a)  # prints 1  
-#print(b)  # prints 2  
+print(a)  # prints 1  
+print(b)  # prints 2  
 
 b = b + 5
-#print(b)  # prints 7
+print(b)  # prints 7
 ```
 
 #### Key Points:
@@ -922,11 +922,11 @@ This is useful because it prevents different parts of the program from interferi
 ```suny
 function test() do  
     x = 10  
-    #print(x)  # prints 10  
+    print(x)  # prints 10  
 end  
 
 test()  
-#print(x)  # error: x is not defined  
+print(x)  # error: x is not defined  
 ```
 
 Here, `x` is local to `test()`. Trying to use it outside gives an error.
@@ -988,8 +988,8 @@ end
 #add_points(5)   # Added 5 points. Current score: 7
 #add_points(3)   # Added 3 points. Current score: 12
 
-#print(score)    # 12
-#print(local_bonus)  # error: local_bonus is not defined
+print(score)    # 12
+print(local_bonus)  # error: local_bonus is not defined
 ```
 
 ---
@@ -1029,8 +1029,8 @@ Booleans represent **truth values**: `true` or `false`.
 is_sunny = true
 is_raining = false
 
-#print(is_sunny)   # true
-#print(is_raining) # false
+print(is_sunny)   # true
+print(is_raining) # false
 ```
 
 #### Boolean in Conditions
@@ -1049,10 +1049,10 @@ Booleans are especially important in **control flow** (if/else, loops, etc.).
 They can also result from **comparison operators**:
 
 ```suny
-#print(5 > 3)    # true
-#print(5 < 3)    # false
-#print(5 == 5)   # true
-#print(5 != 5)   # false
+print(5 > 3)    # true
+print(5 < 3)    # false
+print(5 == 5)   # true
+print(5 != 5)   # false
 ```
 
 #### Boolean Operators
@@ -1088,8 +1088,8 @@ They are sequences of characters enclosed in **double quotes** `" "` or **single
 name = "Dinh Son Hai"
 greeting = 'Hello, world!'
 
-#print(name)     # Dinh Son Hai
-#print(greeting) # Hello, world!
+print(name)     # Dinh Son Hai
+print(greeting) # Hello, world!
 ```
 
 #### String Operations
@@ -1099,15 +1099,15 @@ first = "Hello"
 second = "World"
 combined = first + " " + second
 
-#print(combined)      # Hello World
-#print(size(combined)) # 11
+print(combined)      # Hello World
+print(size(combined)) # 11
 ```
 
 Strings can be compared:
 
 ```suny
-#print("abc" == "abc")  # true
-#print("abc" != "def")  # true
+print("abc" == "abc")  # true
+print("abc" != "def")  # true
 ```
 
 #### Strings in Conditions
@@ -1168,9 +1168,9 @@ mixed = [1, "Two", true, 4.5]
 #### Accessing and Modifying Items
 
 ```suny
-#print(numbers[0])  # 1
+print(numbers[0])  # 1
 numbers[0] = 10
-#print(numbers[0])  # 10
+print(numbers[0])  # 10
 ```
 
 #### Adding and Removing Items
@@ -1183,7 +1183,7 @@ numbers[0] = 10
 #### Length of a List
 
 ```suny
-#print(size(numbers))  # 5
+print(size(numbers))  # 5
 ```
 
 #### Looping Over Lists
@@ -1218,7 +1218,7 @@ function add(a, b) do
     return a + b
 end
 
-#print(add(1, 2))  # 3
+print(add(1, 2))  # 3
 ```
 
 ---
@@ -1232,7 +1232,7 @@ function apply(func, x, y) do
     return func(x, y)
 end
 
-#print(apply(add, 5, 7))  # 12
+print(apply(add, 5, 7))  # 12
 ```
 
 ---
@@ -1263,7 +1263,7 @@ getA = function() do
     return a
 end
 
-#print(getA())  # 10
+print(getA())  # 10
 ```
 
 You can also call them immediately:
@@ -1282,7 +1282,7 @@ A **lambda** is a short form of anonymous function:
 
 ```suny
 let f(x) = x + 1
-#print(f(2))  # 3
+print(f(2))  # 3
 ```
 
 ---
@@ -1430,10 +1430,10 @@ end
 a = Vector(10, 20)
 b = Vector(2, 4)
 
-#print(a + b)  # Vector(12, 24)
-#print(a - b)  # Vector(8, 16)
-#print(a * b)  # Vector(20, 80)
-#print(a / b)  # Vector(5, 5)
+print(a + b)  # Vector(12, 24)
+print(a - b)  # Vector(8, 16)
+print(a * b)  # Vector(20, 80)
+print(a / b)  # Vector(5, 5)
 ```
 
 ---
@@ -1496,7 +1496,7 @@ end
 
 ```suny
 d = Dino()
-#print(d.leg)  # 2
+print(d.leg)  # 2
 ```
 
 ---
@@ -1514,8 +1514,8 @@ end
 
 ```suny
 c = Chicken()
-#print(c.leg)    # 2
-#print(c.wings) # 2
+print(c.leg)    # 2
+print(c.wings) # 2
 ```
 
 ---
@@ -1535,7 +1535,7 @@ class Dog extends Animal do
     end
 end
 
-#print(Dog().speak())  # Woof
+print(Dog().speak())  # Woof
 ```
 
 ---
@@ -2021,7 +2021,7 @@ pi = 3.14
 ## main.suny
 include "config.suny"
 
-#print(pi)   # 3.14
+print(pi)   # 3.14
 ```
 
 Here, the variable `pi` becomes part of `main.suny`’s scope, as if it was defined inside it.
@@ -2047,7 +2047,7 @@ square(x) = x * x
 ## main.suny
 include "math"
 
-#print(square(5))   # 25
+print(square(5))   # 25
 ```
 
 Suny only loads `math/main.suny` by default.
@@ -2100,7 +2100,7 @@ Error: no main.suny in folder 'mylib'
   include "a"
   include "b"
 
-  #print(x)   # which one? result depends on last include
+  print(x)   # which one? result depends on last include
   ```
 
   Best practice: avoid re-using the same global variable names across includes.
