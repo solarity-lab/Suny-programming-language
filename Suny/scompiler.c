@@ -158,7 +158,7 @@ Scompiler_compile_ast_program
         struct Scode *child_code = Scompiler_compile(compiler, child, table);
         INSERT(code, child_code);
 
-        if (is_expr(ast->children[i])) {
+        if (is_expr(child)) {
             PUSH(code, POP_TOP);
         }
     }
@@ -342,39 +342,33 @@ Scompiler_compile_ast_comparison
 (struct ScompilerUnit *compiler, struct Sast *ast, struct Stable *table) {
     struct Scode *code = NULL_CODE_PTR;
 
-    struct Scode *left = Scompiler_compile(compiler, ast->left, table);
-    struct Scode *right = Scompiler_compile(compiler, ast->right, table);
+    int j = 0;
 
-    byte_t opcode;
+    for (int i = 0; i < ast->operand_count - 1; i++) {
+        struct Scode *left_oper = Scompiler_compile(compiler, ast->operands[i], table);
+        struct Scode *right_oper = Scompiler_compile(compiler, ast->operands[i + 1], table);
 
-    switch (ast->op) {
-        case BIGGER:
-            opcode = BINARY_BIGGER;
-            break;
-        case SMALLER:
-            opcode = BINARY_SMALLER;
-            break;
-        case EQUALS:
-            opcode = BINARY_EQUAL;
-            break;
-        case BIGGER_EQUALS:
-            opcode = BINARY_BIGGER_EQUAL;
-            break;
-        case SMALLER_EQUALS:
-            opcode = BINARY_SMALLER_EQUAL;
-            break;
-        case NOT_EQUALS:
-            opcode = BINARY_NOT_EQUAL;
-            break;
-        default:
-            Serror_compiler_error("Unknow operator", ast);
-            return NULL_CODE_PTR;
+        enum Stok_t operand_type = ast->ops[j++];
+        
+        INSERT(code, left_oper);
+        INSERT(code, right_oper);
 
+        switch (operand_type) {
+            case EQUALS:            PUSH(code, BINARY_EQUAL);           break;
+            case NOT_EQUALS:        PUSH(code, BINARY_NOT_EQUAL);       break;
+            case BIGGER:            PUSH(code, BINARY_BIGGER);          break;
+            case BIGGER_EQUALS:     PUSH(code, BINARY_BIGGER_EQUAL);    break;
+            case SMALLER:           PUSH(code, BINARY_SMALLER);         break;
+            case SMALLER_EQUALS:    PUSH(code, BINARY_SMALLER_EQUAL);   break;
+            case IS:                PUSH(code, IS_LOG);                 break;
+            
+            default: break;
+        }
+
+        if (i > 0) {
+            PUSH(code, AND_LOG);
+        }
     }
-
-    INSERT(code, left);
-    INSERT(code, right);
-    PUSH(code, opcode);
 
     return code;
 }
@@ -415,7 +409,12 @@ Scompiler_compile_ast_if
 SUNY_API struct Scode*
 Scompiler_compile_ast_while
 (struct ScompilerUnit *compiler, struct Sast *ast, struct Stable *table) {
-    compiler->is_in_loop = 1;
+    
+    int isalready_in_loop = compiler->is_in_loop;
+
+    if (!isalready_in_loop) {
+        compiler->is_in_loop = 1;
+    }
 
     int while_start = ++compiler->label_counter;
     int while_end = ++compiler->label_counter;
@@ -427,7 +426,9 @@ Scompiler_compile_ast_while
 
     ScompilerUnit_pop_loop(compiler);
 
-    compiler->is_in_loop = 0;
+    if (!isalready_in_loop) {
+        compiler->is_in_loop = 0;
+    }
 
     struct Scode *code = NULL_CODE_PTR;
 
@@ -623,7 +624,11 @@ Scompiler_compile_ast_for
     int loop_start = compiler->label_counter++;
     int loop_end = compiler->label_counter++;
 
-    compiler->is_in_loop = 1;
+    int isalready_in_loop = compiler->is_in_loop;
+
+    if (!isalready_in_loop) {
+        compiler->is_in_loop = 1;
+    }
 
     ScompilerUnit_add_loop(compiler, loop_start, loop_end);
 
@@ -632,7 +637,9 @@ Scompiler_compile_ast_for
     struct Scode *for_body = Scompiler_compile_ast_block(compiler, ast->body, table);
     struct Scode *iter = Scompiler_compile(compiler, ast->expr, table);
 
-    compiler->is_in_loop = 0;
+    if (!isalready_in_loop) {
+        compiler->is_in_loop = 0;
+    }
 
     ScompilerUnit_pop_loop(compiler);
 
@@ -1196,13 +1203,27 @@ SUNY_API struct Scode*
 Scompiler_compile_ast_loop
 (struct ScompilerUnit *compiler, struct Sast *ast, struct Stable *table) {
     struct Scode *code = NULL_CODE_PTR;
+    
     int loop_start = compiler->label_counter++;
+    
     int loop_end = compiler->label_counter++;
-    compiler->is_in_loop = 1;
+    
+    int isalready_in_loop = compiler->is_in_loop;
+
+    if (!isalready_in_loop) {
+        compiler->is_in_loop = 1;
+    }
+    
     ScompilerUnit_add_loop(compiler, loop_start, loop_end);
+    
     struct Scode *loop_block = Scompiler_compile_ast_block(compiler, ast->body, table);
+    
     ScompilerUnit_pop_loop(compiler);
-    compiler->is_in_loop = 0;
+
+    if (!isalready_in_loop) {
+        compiler->is_in_loop = 0;
+    }
+    
     if (ast->is_times) {
         int LOOP_COUNTER = 14;
 

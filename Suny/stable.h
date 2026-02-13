@@ -2,8 +2,6 @@
 #define STABLE_H
 
 #include "score.h"
-#include "bitmask.h"
-// #define NOT_FOUND -1
 
 #define GLOBAL_SCOPE        FLAG(1)
 #define LOCAL_SCOPE         FLAG(2)

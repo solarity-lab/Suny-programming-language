@@ -7,7 +7,7 @@ int Slist_free(struct Slist* list) {
         struct Sobj* obj = list->array[i];
         _SUNYDECREF(obj);
 
-        if (obj->gc->ref_count < 1) {
+        if (obj->ref < 1) {
             Sobj_free(obj);
         }
     }
@@ -98,13 +98,13 @@ struct Slist* Slist_range(int start, int end) {
     if (start > end) {
         for (int i = end; i < start; i++) {
             struct Sobj* value = Sobj_make_number(i);
-            SUNYINCREF(value);
+            _SUNYINCREF(value);
             Slist_add(list, value);
         }
     } else {
         for (int i = start; i < end; i++) {
             struct Sobj* value = Sobj_make_number(i);
-            SUNYINCREF(value);
+            _SUNYINCREF(value);
             Slist_add(list, value);
         }
     }
@@ -124,7 +124,7 @@ struct Slist *Slist_from_string_chars(char *str) {
         
         struct Sobj *value = Sobj_make_string(char_str, 1);
         
-        SUNYINCREF(value);
+        _SUNYINCREF(value);
 
         Slist_add(list, value);
     }

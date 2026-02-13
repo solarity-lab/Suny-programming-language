@@ -11,18 +11,13 @@
 #include "smeta.h"
 #include "suserdata.h"
 
+/*
+    This file define the main value of 
+*/
+
 struct Sgarbarge_obj;
 struct Garbage_pool;
 struct Smeta;
-
-#define NULL_CODE_PTR Scode_new()
-
-#define GC_HEAD struct Sgarbarge_obj* gc
-
-#define DEFAULT_MAX 1024
-
-typedef unsigned char byte_t;
-typedef int address_t;
 
 #define null_obj Sobj_new()
 #define true_obj Sobj_make_true()
@@ -30,9 +25,9 @@ typedef int address_t;
 #define Svalue(x) Sobj_make_number(x)
 
 #define ValueOf(obj) ((obj)->value->value)
-#define Addressof(obj) ((obj)->address)
-#define Sizeof(obj) ((obj)->size)
-#define Typeof(obj) ((obj)->type)
+#define AddressOf(obj) ((obj)->address)
+#define StringOf(obj) ((obj)->f_type->f_str->string)
+#define TypeOf(obj) ((obj)->type)
 
 enum Sobj_t {
     NUMBER_OBJ,
@@ -59,32 +54,27 @@ struct Svalue {
 };
 
 struct Sobj {
-    GC_HEAD;
-    enum Sobj_t type;
-    struct Svalue* value;
-    int address;
-    int size;
-    int is_free;
-    char* dname; // data name
-    char* ddoc; // data document
-    struct Sobj *next;
-    struct Sobj *prev;
-    struct Sobj *f_value; // variable value
-    struct Stype *f_type; // real value
-    struct Sc_api_func* c_api_func;
-    int global_address; // for global variable
-    int local_address; // for local variable
-    int is_variable; // if this object is a variable
-    int is_global; // if this object is a global variable
-    int is_local; // if this object is a local variable
-    int is_closure; // if this object is a closure
-    int is_return; // if this object is return in a function
-    int is_calle;
-    int is_belong_class; // if this object is a member of a class
-    int is_super_class_member; // if this object is a member of a super class
-    int is_argument; // if this object is a function argument
-    int is_shared; // if this object shared for class
-    struct Smeta* meta; // metatable
+    int ref;                            /* ref count */
+
+    enum Sobj_t type;                   /* type of object */
+    struct Svalue* value;               /* main value use for number */
+    struct Stype *f_type;               /* real value */
+    
+    int address;                        /* address of variable*/
+    struct Sobj *f_value;               /* variable value */
+
+    struct Sc_api_func* c_api_func;     /* c api function for userdata */
+
+    int is_global;                      /* if this object is a global variable */
+    int is_local;                       /* if this object is a local variable */
+    int is_closure;                     /* if this object is a closure */
+    int is_return;                      /* if this object is return in a function */
+    int is_extends;                     /* if this object is a member of a super class */
+    int is_shared;                      /* if this object shared for class */
+
+    struct Smeta* meta;                 /* meta */
+
+    struct Sobj* prev;                  /* the object that point to this object */
 };
 
 struct Svalue*

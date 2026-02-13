@@ -3,8 +3,6 @@
 
 struct Suserdata* Suserdata_new(void) {
     struct Suserdata* userdata = Smem_Malloc(sizeof(struct Suserdata));
-    userdata->data = NULL;
-    userdata->type = NULL;
     return userdata;
 }
 struct Suserdata* Suserdata_set(void* data) {
@@ -20,11 +18,6 @@ struct Sobj* Sobj_make_userdata(void* data) {
     obj->f_type = Stype_new();
     obj->f_type->f_userdata = userdata;
     return obj;
-}
-
-struct Suserdata* Suserdata_set_type(struct Suserdata* userdata, struct Stype* type) {
-    userdata->type = type;
-    return userdata;
 }
 
 int Suserdata_free(struct Suserdata* userdata) {

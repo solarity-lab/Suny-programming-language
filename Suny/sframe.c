@@ -15,9 +15,6 @@ Sframe_new(void) {
     frame->f_locals_index = 0;
     frame->f_locals_size = 0;
 
-    frame->f_heap_index = 0;
-    frame->f_heap_size = DEFAULT_MAX;
-
     frame->f_stack_index = 0;
     frame->f_stack_size = DEFAULT_MAX;
 
@@ -29,8 +26,6 @@ Sframe_new(void) {
     frame->f_globals = Smem_Calloc(DEFAULT_MAX, sizeof(struct Sobj *));
     frame->f_consts = Smem_Calloc(DEFAULT_MAX, sizeof(struct Sobj *));
     
-    frame->f_heaps = NULL;
-
     frame->f_label_map = NULL;
     frame->gc_pool = NULL;
     frame->compiler = NULL;
@@ -40,10 +35,7 @@ Sframe_new(void) {
 
     frame->f_obj = NULL;
 
-    frame->back_n_times = 0;
-    frame->is_in_back_loop = 0;
-
-    frame->code_line = 0;
+    frame->GC_THRESHOLD = POOL_SIZE_LIMIT;
 
     SDEBUG("[sframe.c] Sframe_new(void) (done)\n");
     return frame;
@@ -88,7 +80,7 @@ Sframe_push(struct Sframe *frame, struct Sobj *obj) {
         frame->f_stack = Smem_Realloc(frame->f_stack, frame->f_stack_size * sizeof(struct Sobj *));
     }
 
-    SUNYINCREF(obj);
+    _SUNYINCREF(obj);
 
     frame->f_stack[frame->f_stack_index++] = obj;
     SDEBUG("[sframe.c] Sframe_push(struct Sframe *frame, struct Sobj *obj) (done)\n");
@@ -138,6 +130,10 @@ Sframe_back
 struct Sobj*
 Sframe_store_global
 (struct Sframe *frame, int address, struct Sobj *obj, enum Sobj_t type) {
+    if (!frame || !obj) {
+        return NULL;
+    }
+
     SDEBUG("[sframe.c] Sframe_store_global(...)\n");
 
     for (int i = 0; i < frame->f_globals_size; i++) {
@@ -213,7 +209,6 @@ Sframe_store_local
 
             frame->f_locals[i]->f_value = obj;
             frame->f_locals[i]->type = type;
-            frame->f_locals[i]->address = address;
 
             SDEBUG("[sframe.c] Sframe_store_local(struct Sframe *frame, int address, struct Sobj *obj, enum Sobj_t type) (done)\n");
             return frame->f_locals[i];
@@ -231,7 +226,6 @@ Sframe_store_local
 
             frame->f_globals[i]->f_value = obj;
             frame->f_globals[i]->type = type;
-            frame->f_globals[i]->address = address;
 
             SDEBUG("[sframe.c] Sframe_store_local(struct Sframe *frame, int address, struct Sobj *obj, enum Sobj_t type) (done)\n");
             return frame->f_globals[i];

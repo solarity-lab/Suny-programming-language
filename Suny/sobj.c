@@ -12,55 +12,9 @@ Svalue_new(void) {
 struct Sobj* 
 Sobj_new(void) {
     struct Sobj *obj = Smem_Malloc(sizeof(struct Sobj));
-
-    obj->gc = Sgc_new();
-
-    obj->dname = NULL;
-    obj->ddoc = NULL;
-    obj->next = NULL;
-    obj->prev = NULL;
-    obj->is_free = 0;
-
     obj->type = NULL_OBJ;
     obj->value = Svalue_new();
-    obj->size = 0;
-    obj->address = 0;
-
-    obj->f_value = NULL;
-    obj->f_type = NULL;
-
-    obj->global_address = 0;
-    obj->local_address = 0;
-
-    obj->is_variable = 0;
-
-    obj->is_global = 0;
-    obj->is_local = 0;
-    obj->is_calle = 0;
-    obj->is_closure = 0;
-    obj->is_argument = 0;
-    obj->is_return = 0;
-    obj->is_belong_class = 0;
-    obj->is_super_class_member = 0;
-
-    obj->c_api_func = NULL;
-
-    obj->meta = NULL;
-
     return obj;
-}
-
-int Sobj_free_variable(struct Sobj* obj) {
-    if (obj->is_free) {
-        return 0;
-    }
-
-    obj->is_free = 1;
-
-    Smem_Free(obj->value);
-    Smem_Free(obj->gc);
-    Smem_Free(obj);
-    return 1;
 }
 
 int 
@@ -70,12 +24,6 @@ Sobj_free
     if (!obj) {
         __ERROR("Error sobj.c: obj is null\n");
     }
-
-    if (obj->is_free) {
-        return 0; 
-    }
-
-    obj->is_free = 1;
 
     if (obj->type == STRING_OBJ) {
         Sstr_free(obj->f_type->f_str);
@@ -121,7 +69,6 @@ Sobj_free
     }
 
     Smem_Free(obj->value);
-    Smem_Free(obj->gc);
     Smem_Free(obj);
 
     obj = NULL;

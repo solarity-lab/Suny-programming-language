@@ -4,17 +4,12 @@ struct Sobj* Sobj_shallow_copy(struct Sobj* obj) {
     struct Sobj* new_obj = Sobj_new();
     new_obj->type = obj->type;
     new_obj->f_type = obj->f_type;
-    new_obj->size = obj->size;
     new_obj->address = obj->address;
 
-    new_obj->is_argument = obj->is_argument;
-    new_obj->is_variable = obj->is_variable;
     new_obj->is_global = obj->is_global;
     new_obj->is_local = obj->is_local;
     new_obj->is_closure = obj->is_closure;
     new_obj->is_return = obj->is_return;
-    new_obj->is_calle = obj->is_calle;
-    new_obj->is_belong_class = obj->is_belong_class;
 
     new_obj->f_value = obj->f_value;
     return new_obj;

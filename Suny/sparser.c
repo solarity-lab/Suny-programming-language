@@ -467,40 +467,46 @@ Sparser_parse_parent_expression
 struct Sast *
 Sparser_parse_comparison_expression
 (struct Sparser *parser) {
-    struct Sast *left = Sparser_parse_additive_expression(parser);
+    struct Sast *node = AST(AST_COMPARE_EXPRESSION, 0, NULL);
 
-    if (!left) {
+    struct Sast *oper = Sparser_parse_additive_expression(parser);
+
+    if (!oper) {
         Serror_parser("Expected additive expression", parser->lexer);
         return NULL;
     }
 
-    while 
-    (parser->token->type == EQUALS 
+    Sast_add_operands(node, oper);
+
+    int have_oper = 0;
+
+    while (parser->token->type == EQUALS 
     || parser->token->type == NOT_EQUALS 
     || parser->token->type == BIGGER 
     || parser->token->type == SMALLER 
     || parser->token->type == BIGGER_EQUALS 
-    || parser->token->type == SMALLER_EQUALS) {
+    || parser->token->type == SMALLER_EQUALS
+    || parser->token->type == IS) {
+        have_oper = 1;
         enum Stok_t op = parser->token->type;
 
-        parser->token = Slexer_get_next_token(parser->lexer);
-        struct Sast *right = Sparser_parse_additive_expression(parser);
+        Sast_add_ops(node, op);
 
-        if (!right) {
+        parser->token = Slexer_get_next_token(parser->lexer);
+
+        oper = Sparser_parse_additive_expression(parser);
+
+        if (!oper) {
             Serror_parser("Expected additive expression", parser->lexer);
             return NULL;
         }
 
-        struct Sast *node = AST(AST_COMPARE_EXPRESSION, 0, NULL);
-
-        node->left = left;
-        node->right = right;
-        node->op = op;
-        
-        left = node;
+        Sast_add_operands(node, oper);
     }
 
-    return left;
+    if (have_oper) return node;
+
+    return oper;
 }
 
 struct Sast *

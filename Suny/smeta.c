@@ -4,37 +4,6 @@
 
 struct Smeta* Smeta_new(void) {
     struct Smeta* meta = Smem_Malloc(sizeof(struct Smeta));
-    meta->mm_add = NULL;
-    meta->mm_sub = NULL;
-    meta->mm_mul = NULL;
-    meta->mm_div = NULL;
-    meta->mm_tostring = NULL;
-    meta->mm_type = NULL;
-    meta->mm_eq = NULL;
-    meta->mm_ne = NULL;
-    meta->mm_gt = NULL;
-    meta->mm_ge = NULL;
-    meta->mm_lt = NULL;
-    meta->mm_le = NULL;
-    meta->mm_call = NULL;
-    meta->mm_index = NULL;
-    meta->mm_free = NULL;
-    meta->meta_f_add = NULL;
-    meta->meta_f_sub = NULL;
-    meta->meta_f_mul = NULL;
-    meta->meta_f_div = NULL;
-    meta->meta_f_tostring = NULL;
-    meta->meta_f_type = NULL;
-    meta->meta_f_eq = NULL;
-    meta->meta_f_ne = NULL;
-    meta->meta_f_gt = NULL;
-    meta->meta_f_ge = NULL;
-    meta->meta_f_lt = NULL;
-    meta->meta_f_le = NULL;
-    meta->meta_f_call = NULL;
-    meta->meta_f_index = NULL;
-    meta->frame = NULL;
-    meta->is_meta_class = 0;
     return meta;
 }
 

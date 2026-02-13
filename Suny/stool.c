@@ -363,3 +363,33 @@ void SmodChars(char* out, const char* fmt, const char* value) {
 
     strcat(out, p + 2);
 }
+
+char* read_fast_content(char* filename) {
+    FILE* f = fopen(filename, "rb");
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    rewind(f);
+
+    char* buf = malloc(size + 1);
+    fread(buf, 1, size, f);
+    buf[size] = 0;
+
+    fclose(f);
+    return buf;
+}
+
+char STo_hex(char hi, char lo) {
+    int h, l;
+
+    if (hi >= '0' && hi <= '9')      h = hi - '0';
+    else if (hi >= 'a' && hi <= 'f') h = hi - 'a' + 10;
+    else if (hi >= 'A' && hi <= 'F') h = hi - 'A' + 10;
+    else return 0;
+
+    if (lo >= '0' && lo <= '9')      l = lo - '0';
+    else if (lo >= 'a' && lo <= 'f') l = lo - 'a' + 10;
+    else if (lo >= 'A' && lo <= 'F') l = lo - 'A' + 10;
+    else return 0;
+
+    return (char)((h << 4) | l);
+}

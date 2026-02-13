@@ -3,7 +3,6 @@
 
 #include "scode.h"
 #include "score.h"
-#include "max.h"
 #include "sobj.h"
 
 struct Spos {

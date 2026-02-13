@@ -54,6 +54,10 @@ Svm_evaluate_PRINT
 (struct Sframe *frame);
 
 SUNY_API struct Sframe*
+Svm_evaluate_COPY_TOP
+(struct Sframe *frame);
+
+SUNY_API struct Sframe*
 Svm_evaluate_PUSH_STRING
 (struct Sframe *frame);
 
@@ -103,6 +107,10 @@ Svm_evaluate_CLASS_BEGIN
 
 SUNY_API struct Sframe*
 Svm_evaluate_MAKE_BLOCK
+(struct Sframe *frame);
+
+SUNY_API struct Sframe*
+Svm_evaluate_IS_LOG
 (struct Sframe *frame);
 
 SUNY_API struct Sframe*

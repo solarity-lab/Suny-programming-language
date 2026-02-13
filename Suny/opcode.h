@@ -78,4 +78,7 @@
 #define LOAD_MEMBER                     0x64
 #define SET_SHARED_CLASS                0x65
 
+#define IS_LOG                          0x66
+#define COPY_TOP                        0x67 // 67!!!! SIX SEVENNNNNNNN!!!
+
 #endif // OPCODE_H

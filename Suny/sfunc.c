@@ -5,8 +5,6 @@ struct Sfunc *
 Sfunc_new(void) {
     struct Sfunc *func = Smem_Malloc(sizeof(struct Sfunc));
 
-    func->params = Smem_Calloc(MAX_ARGS_SIZE, sizeof(struct Sobj*));
-
     func->parent = NULL;
 
     func->args_index = 0;
@@ -15,7 +13,6 @@ Sfunc_new(void) {
     func->code_size = 0;
     func->args_size = 0;
 
-    func->cf = NULL;
     func->code = NULL;
     func->f_frame = NULL;
     func->envi = NULL;
@@ -43,7 +40,6 @@ Sfunc_free
         Senvi_free(func->envi);
     }
     
-    Smem_Free(func->params);
     Smem_Free(func);
 
 #ifdef DEBUG

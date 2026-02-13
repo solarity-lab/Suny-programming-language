@@ -26,7 +26,7 @@ Sclass_free
 
         if (sclass->methods[i]->is_shared) continue;
 
-        if (sclass->methods[i]->is_super_class_member) {
+        if (sclass->methods[i]->is_extends) {
             Sobj_free(sclass->methods[i]);
             _SUNYDECREF(sclass->methods[i]->f_value);
             continue;
@@ -39,49 +39,6 @@ Sclass_free
     Smem_Free(sclass->methods);
     Smem_Free(sclass);
     return 0;
-}
-
-struct Sclass* 
-Sclass_store_object
-(struct Sclass* sclass, struct Sframe* frame, int address) {
-#ifdef DEBUG
-    printf("[sclass.c] struct Sclass* Sclass_store_object(struct Sclass* sclass, struct Sframe* frame, int address) (building...)\n");
-#endif
-    struct Sobj* object = Sframe_pop(frame);
-
-    if (sclass->count >= sclass->capacity) {
-sclass->capacity *= 2;
-        sclass->methods = Smem_Realloc(sclass->methods, sizeof(struct Sobj*) * sclass->capacity);
-    }
-
-    for (int i = 0; i < sclass->count; i++) {
-        if (sclass->methods[i]->address == address) {
-            struct Sobj* prev = sclass->methods[i]->f_value;
-
-            _SUNYDECREF(prev);
-            MOVETOGC(prev, frame->gc_pool);
-
-            _SUNYINCREF(object);
-
-            sclass->methods[i]->f_value = object;
-            return sclass;
-        }
-    }
-
-    struct Sobj* method = Sobj_new();
-    method->type = LOCAL_OBJ;
-    method->f_value = object;
-    method->address = address;
-
-    _SUNYINCREF(object);
-
-    sclass->methods[sclass->count++] = method;
-
-#ifdef DEBUG
-    printf("[sclass.c] struct Sclass* Sclass_store_object(struct Sclass* sclass, struct Sframe* frame, int address) (done)\n");
-#endif
-
-    return sclass;
 }
 
 struct Sobj* 
@@ -119,8 +76,13 @@ Sclass_push_obj
 }
 
 struct Sclass* 
-Sclass_store_local_obj
+Sclass_store_member
 (struct Sclass* sclass, struct Sframe* frame, struct Sobj* value, int address) {
+    if (sclass->count >= sclass->capacity) {
+        sclass->capacity *= 2;
+        sclass->methods = Smem_Realloc(sclass->methods, sizeof(struct Sobj*) * sclass->capacity);
+    }
+
     for (int i = 0; i < sclass->count; i++) {
         if (sclass->methods[i]->address == address) {
             struct Sobj* prev = sclass->methods[i]->f_value;
@@ -141,7 +103,6 @@ Sclass_store_local_obj
     method->address = address;
 
     _SUNYINCREF(value);
-    _SUNYINCREF(method);
 
     sclass->methods[sclass->count++] = method;
     
@@ -228,9 +189,9 @@ Sclass_extends_class
 
         clone->f_value = super_class->methods[i]->f_value;
 
-        SUNYINCREF(clone->f_value);
+        _SUNYINCREF(clone->f_value);
 
-        clone->is_super_class_member = 1;
+        clone->is_extends = 1;
 
         Sclass_push_obj(sclass, clone);
     }

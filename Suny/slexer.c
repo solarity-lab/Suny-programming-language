@@ -163,7 +163,22 @@ Slexer_tokenize_string
 
                 get_next_c(lexer);
                 current(lexer);
-            } else {
+            } else if (lexer->cur == 'x') {
+                get_next_c(lexer);
+                current(lexer);
+
+                char hex1 = lexer->cur;
+                get_next_c(lexer);
+                current(lexer);
+
+                char hex2 = lexer->cur;
+                get_next_c(lexer);
+                current(lexer);
+
+                char hex = STo_hex(hex1, hex2);
+                lexeme[len++] = hex;
+            } 
+            else {
                 lexeme[len++] = lexer->cur;
 
                 get_next_c(lexer);

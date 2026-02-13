@@ -1,9 +1,19 @@
 #ifndef SCORE_H
 #define SCORE_H
 
+#define MAX_STACK_SIZE 100
+#define MAX_IDENTIFIER_SIZE 1024
+#define MAX_NUMBER_LEN 1024
+#define DEFAULT_MAX 1024
+#define MAX_LABEL_SIZE 1024
+
 struct Sobj;
 struct Sframe;
 struct Stable;
+
+typedef unsigned char byte_t;
+
+typedef int address_t;
 
 typedef struct Sobj* (*builtin_func)(struct Sframe*);
 
@@ -42,7 +52,6 @@ typedef struct Sframe* (*main_func)(struct Sframe*, struct Stable*);
 #define SUNY_EXIT exit(0)
 
 #include "opcode.h"
-#include "max.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,9 +61,16 @@ typedef struct Sframe* (*main_func)(struct Sframe*, struct Stable*);
 #include <unistd.h>
 #include <stdint.h>
 
-int                 SDEBUG              (const char* format, ...);
-SUNY_MODULE         SUNY_OPEN_LIB        (char* lib_name);
-SUNY_FUNCTION       SUNY_GET_FUNCTION_FROM         (SUNY_MODULE handle, char* func_name);
-void                SUNY_CLOSE_LIB       (SUNY_MODULE handle);
+int                 __SDEBUG                          (const char* format, ...);
+SUNY_MODULE         SUNY_OPEN_LIB                   (char* lib_name);
+SUNY_FUNCTION       SUNY_GET_FUNCTION_FROM          (SUNY_MODULE handle, char* func_name);
+void                SUNY_CLOSE_LIB                  (SUNY_MODULE handle);
+
+
+#ifndef DEBUG
+    #define SDEBUG __SDEBUG
+#else
+    #define SDEBUG printf
+#endif
 
 #endif // SCORE_H

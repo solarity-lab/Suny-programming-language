@@ -2,20 +2,6 @@
 #include "sdebug.h"
 #include "smem.h"
 
-struct Sgarbarge_obj* Sgc_new(void) {
-    struct Sgarbarge_obj* obj = Smem_Malloc(sizeof(struct Sgarbarge_obj));
-    obj->next = NULL;
-    obj->obj = NULL;
-    obj->ref_count = 0;
-    return obj;
-}
-
-struct Sgarbarge_obj* Sgc_new_obj(struct Sobj* obj) {
-    struct Sgarbarge_obj* garbage_obj = Sgc_new();
-    garbage_obj->obj = obj;
-    return garbage_obj;
-}
-
 struct Garbage_pool* Sgc_new_pool(void) {
     SDEBUG("[sgc.c] struct Garbage_pool* Sgc_new_pool(void) (building...)\n");
 
@@ -55,7 +41,7 @@ void Sgc_collect(struct Garbage_pool* pool) {
             SUNY_BREAK_POINT;
         }
 
-        if (obj->gc->ref_count < 1) {
+        if (obj->ref < 1) {
             Sobj_free(obj);
         }
 
@@ -67,17 +53,12 @@ void Sgc_collect(struct Garbage_pool* pool) {
     return;
 }
 
-int SUNYINCREF(struct Sobj* obj) {
-    obj->gc->ref_count++;
-    return 0;
-}
-
 int MOVETOGC(struct Sobj* obj, struct Garbage_pool* pool) {
     if (!pool) {
         __ERROR("Error: pool is null\n");
     }
 
-    if (obj->gc->ref_count < 1) {
+    if (obj->ref < 1) {
         Sgc_push_garbage_obj(pool, obj);
     }
     return 0;

@@ -1,11 +1,16 @@
 #include "svm.h"
 #include "smem.h"
 #include "sdebug.h"
+
 struct Sframe* Svm_evaluate(struct Sframe *frame, byte_t op) {
     switch (op) {
 
+        case COPY_TOP:
+            Svm_evaluate_COPY_TOP(frame);
+            break;
+
         case AND_LOG:
-            frame = Svm_evaluate_AND_LOG(frame);
+            Svm_evaluate_AND_LOG(frame);
             break;
 
         case ADD_LABEL:
@@ -13,132 +18,136 @@ struct Sframe* Svm_evaluate(struct Sframe *frame, byte_t op) {
             break;
 
         case OR_LOG:
-            frame = Svm_evaluate_OR_LOG(frame);
+            Svm_evaluate_OR_LOG(frame);
             break;
 
         case NOT_LOG:
-            frame = Svm_evaluate_NOT_LOG(frame);
+            Svm_evaluate_NOT_LOG(frame);
             break;
 
         case PUSH_FLOAT:
-            frame = Svm_evaluate_PUSH_FLOAT(frame);
+            Svm_evaluate_PUSH_FLOAT(frame);
             break;
 
         case LOAD_CLOSURE:
-            frame = Svm_evaluate_LOAD_CLOSURE(frame);
+            Svm_evaluate_LOAD_CLOSURE(frame);
             break;
 
         case STORE_CLOSURE:
-            frame = Svm_evaluate_STORE_CLOSURE(frame);
+            Svm_evaluate_STORE_CLOSURE(frame);
             break;
 
         case MAKE_CLOSURE:
-            frame = Svm_evaluate_MAKE_CLOSURE(frame);
+            Svm_evaluate_MAKE_CLOSURE(frame);
             break;
 
         case LOAD_GLOBAL:
-            frame = Svm_evaluate_LOAD_GLOBAL(frame);
+            Svm_evaluate_LOAD_GLOBAL(frame);
             break;
 
         case STORE_GLOBAL:
-            frame = Svm_evaluate_STORE_GLOBAL(frame);
+            Svm_evaluate_STORE_GLOBAL(frame);
             break;
 
         case LOAD_LOCAL:
-            frame = Svm_evaluate_LOAD_LOCAL(frame);
+            Svm_evaluate_LOAD_LOCAL(frame);
             break;
 
         case STORE_LOCAL:
-            frame = Svm_evaluate_STORE_LOCAL(frame);
+            Svm_evaluate_STORE_LOCAL(frame);
             break;
 
         case PUSH_STRING:
-            frame = Svm_evaluate_PUSH_STRING(frame);
+            Svm_evaluate_PUSH_STRING(frame);
             break;
 
         case BUILD_LIST:
-            frame = Svm_evaluate_BUILD_LIST(frame);
+            Svm_evaluate_BUILD_LIST(frame);
             break;
 
         case LEN_OF:
-            frame = Svm_evaluate_LEN_OF(frame);
+            Svm_evaluate_LEN_OF(frame);
             break;
 
         case POP_JUMP_IF_FALSE:
-            frame = Svm_evaluate_POP_JUMP_IF_FALSE(frame);
+            Svm_evaluate_POP_JUMP_IF_FALSE(frame);
             break;
 
         case MAKE_FUNCTION:
-            frame = Svm_evaluate_MAKE_FUNCTION(frame);
+            Svm_evaluate_MAKE_FUNCTION(frame);
             break;
 
         case FUNCTION_CALL:
-            frame = Svm_evaluate_FUNCTION_CALL(frame);
+            Svm_evaluate_FUNCTION_CALL(frame);
             break;
 
         case LOAD_NULL:
-            frame = Svm_evaluate_LOAD_NULL(frame);
+            Svm_evaluate_LOAD_NULL(frame);
             break;
 
         case JUMP_TO:
-            frame = Svm_evaluate_JUMP_TO(frame);
+            Svm_evaluate_JUMP_TO(frame);
             break;
 
         case LOAD_ATTR:
-            frame = Svm_evaluate_LOAD_ATTR(frame);
+            Svm_evaluate_LOAD_ATTR(frame);
             break;
 
         case STORE_ATTR:
-            frame = Svm_evaluate_STORE_ATTR(frame);
+            Svm_evaluate_STORE_ATTR(frame);
             break;
 
         case CLASS_BEGIN:
-            frame = Svm_evaluate_CLASS_BEGIN(frame);
+            Svm_evaluate_CLASS_BEGIN(frame);
             break;
 
         case POP_TOP:
-            frame = Svm_evaluate_POP(frame);
+            Svm_evaluate_POP(frame);
             break;
 
         case LOAD_ITEM:
-            frame = Svm_evaluate_LOAD_ITEM(frame);
+            Svm_evaluate_LOAD_ITEM(frame);
             break;
 
         case STORE_ITEM:
-            frame = Svm_evaluate_STORE_ITEM(frame);
+            Svm_evaluate_STORE_ITEM(frame);
+            break;
+
+        case IS_LOG:
+            Svm_evaluate_IS_LOG(frame);
             break;
 
         case PRINT:
-            frame = Svm_evaluate_PRINT(frame);
+            Svm_evaluate_PRINT(frame);
             break;
 
         case LOAD_TRUE:
-            frame = Svm_evaluate_LOAD_TRUE(frame);
+            Svm_evaluate_LOAD_TRUE(frame);
             break;
 
         case LOAD_FALSE:
-            frame = Svm_evaluate_LOAD_FALSE(frame);
+            Svm_evaluate_LOAD_FALSE(frame);
             break;
 
         case EXIT_PROGRAM:
-            frame = Svm_evaluate_EXIT_PROGRAM(frame);
+            Svm_evaluate_EXIT_PROGRAM(frame);
             break;
 
         case STOP_PROGRAM:
-            frame = Svm_evaluate_STOP_PROGRAM(frame);
+            Svm_evaluate_STOP_PROGRAM(frame);
             break;
 
         case LOOP_PREP:
-            frame = Svm_evaluate_LOOP_PREP(frame);
+            Svm_evaluate_LOOP_PREP(frame);
             break;
 
         case LOOP_STEP:
-            frame = Svm_evaluate_LOOP_STEP(frame);
+            Svm_evaluate_LOOP_STEP(frame);
             break;
 
         default:
             if (IS_BINARY_OPER(op)) {
-                frame = Svm_evalutate_BINARY_OPER(frame, op);
+                Svm_evalutate_BINARY_OPER(frame, op);
             } else {
                 __ERROR("Error: unknown opcode %s\n", print_op(op));
                 exit(1);
@@ -171,10 +180,6 @@ SUNY_API struct Sframe*
 Svm_run_program(struct Sframe *frame) {
     SDEBUG("[svm.c] Svm_run_program(struct Sframe *frame) (building...)\n");
 
-    if (!frame->f_heaps) {
-        printf("Error: no heap\n");
-    }
-
     if (!frame->gc_pool) {
         printf("Error: no garbage collector\n");
     }
@@ -191,7 +196,7 @@ Svm_run_program(struct Sframe *frame) {
                 break;
             }
 
-            frame = Svm_evaluate(frame, op);
+            Svm_evaluate(frame, op);
              
             op = get_next_code(frame);
             
@@ -216,10 +221,6 @@ Svm_run_call_context(struct Scall_context *context) {
 
     struct Sframe *f_frame = context->frame;
 
-    if (!f_frame->f_heaps) {
-        __ERROR("Error: no heap\n");
-    }
-
     if (!f_frame->gc_pool) {
         __ERROR("Error: no garbage pool\n");
     }
@@ -235,12 +236,12 @@ Svm_run_call_context(struct Scall_context *context) {
         }
         
         if (op == RETURN_TOP) {        // return top
-            f_frame = Svm_evaluate_RETURN_TOP(f_frame, context);
+            Svm_evaluate_RETURN_TOP(f_frame, context);
             break;
         }
         
         else {
-            f_frame = Svm_evaluate(f_frame, op);
+            Svm_evaluate(f_frame, op);
         }
 
         if (f_frame->gc_pool->pool_index > POOL_SIZE_LIMIT) {
@@ -264,7 +265,7 @@ Svm_evaluate_FUNCTION_CALL
 
     struct Sobj *f_obj = Sframe_pop(frame);
     
-    if (f_obj->type == BUILTIN_OBJ) Sfunc_call_c_api_func(frame, f_obj);
+    if (f_obj->type == BUILTIN_OBJ) Sframe_call_c_api_func(frame, get_c_api_func(f_obj));
     else if (f_obj->type == FUNC_OBJ && f_obj->prev) Svm_call_class_function(frame, f_obj);
     else if (f_obj->type == CLASS_OBJ) Sclass_call(frame, f_obj);
     else if (f_obj->type == CLOSURE_OBJ) Svm_call_closure(frame, f_obj);
@@ -327,7 +328,6 @@ Svm_evaluate_STORE_GLOBAL
 
     int address = get_next_code(frame);
 
-    obj->global_address = address;
     obj->is_global = 1;
 
     Sframe_store_global(frame, address, obj, GLOBAL_OBJ);
@@ -511,13 +511,13 @@ Svm_evaluate_LOAD_ITEM
     struct Sobj *list = Sframe_pop(frame);
 
     if (index->value->value < 0) {
-        Sframe_push(frame, null_obj);
+        __ERROR("Error frame.c: index under of range: %f\n", index->value->value);
         return frame;
     }
 
     if (list->type == LIST_OBJ) {
         if (index->value->value >= list->f_type->f_list->count) {
-            Sframe_push(frame, null_obj);
+            __ERROR("Error frame.c: index out of range: %d\n", index->value->value);
             return frame;
         };
 
@@ -725,7 +725,7 @@ Svm_evaluate_SET_SUPER_CLASS
         return frame;
     }
 
-    sclass = Sclass_extends_class(sclass, super_class->f_type->f_class);
+    Sclass_extends_class(sclass, super_class->f_type->f_class);
     
     SDEBUG("[svm.c] Svm_evaluate_SET_SUPER_CLASS(struct Sframe *frame) (done)\n");
     return frame;
@@ -738,7 +738,7 @@ Svm_evaluate_LOAD_MEMBER
     int address = get_next_code(frame);
     struct Sobj *obj = Sclass_get_object(sclass, address);
 
-    if (obj == NULL) {
+    if (!obj) {
         __ERROR("Error: attribute not found\n");
     }
 
@@ -752,7 +752,10 @@ Svm_evaluate_STORE_MEMBER
 (struct Sframe *frame, struct Sclass *sclass) {
     SDEBUG("[svm.c] Svm_evaluate_STORE_MEMBER(struct Sframe *frame) (building...)\n");
     int address = get_next_code(frame);
-    sclass = Sclass_store_object(sclass, frame, address);
+
+    struct Sobj* value = Sframe_pop(frame);
+
+    Sclass_store_member(sclass, frame, value, address);
     
     SDEBUG("[svm.c] Svm_evaluate_STORE_MEMBER(struct Sframe *frame) (done)\n");
     return frame;
@@ -774,23 +777,23 @@ Svm_evaluate_CLASS_BEGIN
         }
 
         else if (op == STORE_MEMBER) {
-            frame = Svm_evaluate_STORE_MEMBER(frame, sclass);
+            Svm_evaluate_STORE_MEMBER(frame, sclass);
         }
 
         else if (op == LOAD_MEMBER) {
-            frame = Svm_evaluate_LOAD_MEMBER(frame, sclass);
+            Svm_evaluate_LOAD_MEMBER(frame, sclass);
         }
 
         else if (op == SET_SUPER_CLASS) {
-            frame = Svm_evaluate_SET_SUPER_CLASS(frame, sclass);
+            Svm_evaluate_SET_SUPER_CLASS(frame, sclass);
         }
 
         else if (op == SET_SHARED_CLASS) {
-            frame = Svm_evaluate_SET_SHARED_CLASS(frame ,sclass);
+            Svm_evaluate_SET_SHARED_CLASS(frame ,sclass);
         }
 
         else {
-            frame = Svm_evaluate(frame, op);
+            Svm_evaluate(frame, op);
         }
 
         if (frame->gc_pool->pool_index > POOL_SIZE_LIMIT) {
@@ -901,7 +904,7 @@ Svm_evaluate_STORE_ATTR
 
     if (class->type == CLASS_OBJ) {
         struct Sclass *sclass = class->f_type->f_class;
-        Sclass_store_local_obj(sclass, frame, value, address);
+        Sclass_store_member(sclass, frame, value, address);
     }
 
     MOVETOGC(class, frame->gc_pool);
@@ -1006,6 +1009,23 @@ Svm_evaluate_STORE_CLOSURE
     Sframe_store_closure(frame, address, obj, LOCAL_OBJ);
 
     SDEBUG("[svm.c] Svm_evaluate_STORE_CLOSURE(struct Sframe *frame) (done)\n");
+    return frame;
+}
+
+SUNY_API struct Sframe*
+Svm_evaluate_IS_LOG
+(struct Sframe *frame) {
+    SDEBUG("[svm.c] Svm_evaluate_IS_LOG(struct Sframe *frame) (building...)\n");
+
+    struct Sobj *obj1 = Sframe_pop(frame);
+    struct Sobj *obj2 = Sframe_pop(frame);
+
+    Sframe_push_bool(frame, obj1 == obj2);
+
+    MOVETOGC(obj1, frame->gc_pool);
+    MOVETOGC(obj2, frame->gc_pool);
+
+    SDEBUG("[svm.c] Svm_evaluate_IS_LOG(struct Sframe *frame) (done)\n");
     return frame;
 }
 
@@ -1212,4 +1232,18 @@ Svm_evaluate_MAKE_CLOSURE
 
     SDEBUG("[svm.c] Svm_evaluate_MAKE_CLOSURE(struct Sframe *frame, struct Scall_context *context) (done)\n");
     return frame;   
+}
+
+SUNY_API struct Sframe*
+Svm_evaluate_COPY_TOP
+(struct Sframe *frame) {
+    SDEBUG("[svm.c] Svm_evaluate_COPY_TOP(struct Sframe *frame) (building...)\n");
+    struct Sobj *obj = Sframe_pop(frame);
+
+    struct Sobj *copy = Sobj_deep_copy(obj);
+
+    Sframe_push(frame, copy);
+
+    SDEBUG("[svm.c] Svm_evaluate_COPY_TOP(struct Sframe *frame) (done)\n");
+    return frame;
 }

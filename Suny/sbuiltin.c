@@ -1,16 +1,6 @@
 #include "sbuiltin.h"
 #include "smem.h"
-
-struct Sc_api_func* 
-Sc_api_func_set
-(void* func, char* name, int address, int args_size) {
-    struct Sc_api_func* api_func = Smem_Malloc(sizeof(struct Sc_api_func));
-    api_func->func = func;
-    api_func->name = name;
-    api_func->address = address;
-    api_func->args_size = args_size;
-    return api_func;
-}
+#include "sdebug.h"
 
 SUNY_API struct Sobj* Sisdigit_builtin(struct Sframe *frame) {
     struct Sobj *obj = Sframe_pop(frame);
@@ -107,8 +97,51 @@ SUNY_API struct Sobj* Sexit(struct Sframe* frame) {
     return null_obj;
 }
 
-SUNY_API struct Sobj* Sload_dll(struct Sframe *frame) {
-    return null_obj;
+SUNY_API struct Sobj* Sload(struct Sframe *frame) {
+#ifdef _WIN32
+    struct Sobj* oargs = Sframe_pop(frame);
+    struct Sobj* ofunc = Sframe_pop(frame);
+    struct Sobj* ofile = Sframe_pop(frame);
+
+    if (TypeOf(ofunc) != STRING_OBJ || TypeOf(ofile) != STRING_OBJ || TypeOf(oargs) != LIST_OBJ) return null_obj;
+
+    char* file_name = StringOf(ofile);
+    char* func_name = StringOf(ofunc);
+
+    struct Slist* args = tget_list(oargs);
+
+    if (!if_file_exists(file_name)) {
+        __ERROR("Cannot find file '%s'", file_name);
+    }
+
+    SUNY_MODULE module = SUNY_OPEN_LIB(file_name);
+
+    if (!module) {
+        __ERROR("Cannot open file '%s'", file_name);
+    }
+
+    SUNY_FUNCTION func = SUNY_GET_FUNCTION_FROM(module, func_name);
+
+    if (!func) {
+        __ERROR("Cannot find function %s at '%s'", func_name, file_name);
+    }
+
+    builtin_func ffi = (builtin_func) func;
+
+    for (int i = 0; i < args->count; i++) {
+        struct Sobj* arg = args->array[i];
+        if (arg) Sframe_push(frame, arg);
+        else Sframe_push_null(frame);
+    }
+
+    struct Sobj* ret = ffi(frame);
+
+    MOVETOGC(oargs, frame->gc_pool);
+    MOVETOGC(ofunc, frame->gc_pool);
+    MOVETOGC(ofile, frame->gc_pool);
+
+    return ret;
+#endif
 }
 
 SUNY_API struct Sobj* Ssize(struct Sframe* frame) {
@@ -131,7 +164,8 @@ SUNY_API struct Sobj* Spush(struct Sframe* frame) {
 
     Slist_add(list->f_type->f_list, value);
 
-    SUNYINCREF(value);
+    _SUNYINCREF(value);
+    
     MOVETOGC(list, frame->gc_pool);
 
     return list;
@@ -254,4 +288,19 @@ SUNY_API struct Sobj* Scopy(struct Sframe *frame) {
     struct Sobj *copy = Sobj_deep_copy(obj);
     MOVETOGC(obj, frame->gc_pool);
     return copy;
+}
+
+SUNY_API struct Sobj* Ssystem(struct Sframe* frame) {
+    struct Sobj *obj = Sframe_pop(frame);
+    char* str = obj->f_type->f_str->string;
+    system(str);
+    MOVETOGC(obj, frame->gc_pool);
+    return null_obj;
+}
+
+SUNY_API struct Sobj* Schar_cast(struct Sframe* frame) {
+    struct Sobj *obj = Sframe_pop(frame);
+    MOVETOGC(obj, frame->gc_pool);
+    char c = obj->value->value;
+    return Sobj_make_string(&c, 1);
 }

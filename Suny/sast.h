@@ -78,9 +78,9 @@ enum Sast_t {
     AST_EXTRACT                                     = -40,
     AST_NULL_EXPRESSION                             = -41,
     AST_NEGATIVE_EXPRESSION                         = -42,
-    AST_NULL                                        = -43,
+    AST_HASH_MAP_EXPRESSION                         = -43,
+    AST_NULL                                        = -44,
 };
-
 
 struct Sast {
     // type and value
@@ -112,6 +112,14 @@ struct Sast {
     struct Sast *left;
     struct Sast *right;
     enum Stok_t op;
+
+    // condition expression
+    struct Sast** operands;
+    enum Stok_t* ops;
+    int operand_count;
+    int operand_capacity;
+    int ops_count;
+    int ops_capacity;
 
     // if-else statement
     struct Sast *condition;
@@ -173,7 +181,7 @@ struct Sast {
     int is_until;
     struct Sast *until;
     struct Sast *times;
-
+    
     struct Slexer *lexer;
 
     char* file;
@@ -241,5 +249,13 @@ Sast_add_var_list_value
 struct Sast* 
 Sast_assign_var_list_value
 (struct Sast *sast);
+
+int
+Sast_add_operands
+(struct Sast *sast, struct Sast *oper);
+
+int
+Sast_add_ops
+(struct Sast *sast, enum Stok_t op);
 
 #endif

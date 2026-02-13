@@ -8,12 +8,6 @@ struct Sframe;
 
 #define Sframe_initialize_gc(frame) ((frame)->gc_pool = Sgc_new_pool())
 
-struct Sgarbarge_obj {
-    struct Sobj* obj;
-    int ref_count;
-    struct Sgarbarge_obj* next;
-};
-
 struct Garbage_pool {
     struct Sobj** garbage_pool;
     
@@ -23,14 +17,10 @@ struct Garbage_pool {
     int is_activate;
 };
 
-#define _SUNYINCREF(obj) ((obj)->gc->ref_count++)
-#define _SUNYDECREF(obj) ((obj)->gc->ref_count--)
+#define _SUNYINCREF(obj) ((obj)->ref++)
+#define _SUNYDECREF(obj) ((obj)->ref--)
 
-#define POOL_SIZE_LIMIT 500
-
-struct Sgarbarge_obj* Sgc_new(void);
-
-struct Sgarbarge_obj* Sgc_new_obj(struct Sobj* obj);
+#define POOL_SIZE_LIMIT 500 /* for the fastest performance set it to 500 */
 
 struct Garbage_pool* Sgc_new_pool(void);
 int Sgc_free_pool(struct Garbage_pool* pool);
@@ -38,7 +28,6 @@ struct Garbage_pool* Sgc_push_garbage_obj(struct Garbage_pool* pool, struct Sobj
 
 void Sgc_collect(struct Garbage_pool* pool);
 
-int SUNYINCREF(struct Sobj* obj);
 int MOVETOGC(struct Sobj* obj, struct Garbage_pool* pool);
 
 int Sgc_activate(struct Sframe *frame);

@@ -16,10 +16,6 @@ struct Suserdata*
 Suserdata_set
 (void* data);
 
-struct Suserdata* 
-Suserdata_set_type
-(struct Suserdata* userdata, struct Stype* type);
-
 struct Sobj* 
 Sobj_make_userdata
 (void* data);

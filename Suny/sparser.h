@@ -4,6 +4,10 @@
 #include "slexer.h"
 #include "sast.h"
 
+int
+Sast_add_ops
+(struct Sast *sast, enum Stok_t op);
+
 struct Sparser {
     struct Sast *ast;
 
@@ -106,10 +110,6 @@ Sparser_parse_if_block
 
 struct Sast *
 Sparser_parse_if
-(struct Sparser *parser);
-
-struct Sast *
-Sparser_parse_else_block
 (struct Sparser *parser);
 
 struct Sast *

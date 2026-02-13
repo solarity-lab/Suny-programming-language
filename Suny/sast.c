@@ -89,6 +89,13 @@ struct Sast* Sast_new(void) {
     sast->is_until = 0;
     sast->is_having_params = 0;
 
+    sast->operand_count = 0;
+    sast->operand_capacity = 1024;
+    sast->ops_count = 0;
+    sast->ops_capacity = 1024;
+    sast->operands = Smem_Calloc(MAX_STATEMENT_SIZE, sizeof(struct Sast *));
+    sast->ops = Smem_Calloc(MAX_STATEMENT_SIZE, sizeof(enum Stok_t));
+
     sast->times = NULL;
     sast->until = NULL;
     sast->var_name = NULL;
@@ -341,5 +348,28 @@ int
 Sast_make_block_with_stmt
 (struct Sast *block, struct Sast *stmt) {
     Sast_add_block(block, stmt);
+    return 0;
+}
+
+int
+Sast_add_operands(struct Sast *sast, struct Sast *oper) {
+    if (sast->operand_count >= sast->operand_capacity) {
+        sast->operand_capacity *= 2;
+        sast->operands = (struct Sast **)Smem_Realloc(sast->operands, sizeof(struct Sast *) * sast->operand_capacity);
+    }
+
+    sast->operands[sast->operand_count++] = oper;
+    return 0;
+}
+
+int
+Sast_add_ops
+(struct Sast *sast, enum Stok_t op) {
+    if (sast->ops_count >= sast->ops_capacity) {
+        sast->ops_capacity *= 2;
+        sast->ops = (enum Stok_t *)Smem_Realloc(sast->ops, sizeof(enum Stok_t) * sast->ops_capacity);
+    }
+
+    sast->ops[sast->ops_count++] = op;
     return 0;
 }
