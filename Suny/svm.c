@@ -12,7 +12,8 @@ struct Sframe* Svm_evaluate(struct Sframe *frame, byte_t op) {
     switch (op) {
         case MAKE_MAP:
             Svm_evaluate_MAKE_MAP(frame);
-
+            break;
+            
         case COPY_TOP:
             Svm_evaluate_COPY_TOP(frame);
             break;
@@ -637,7 +638,8 @@ Svm_evaluate_STORE_ITEM
             if (Scompare_representative(key, mkey, CMP_EQ)) {
                 struct Sobj* mvalue = map->values->array[i];
 
-                if (!mvalue) return -1;
+                if (!mvalue)
+                    return frame;
                 
                 _SUNYDECREF(mvalue);
                 _SUNYINCREF(value);
