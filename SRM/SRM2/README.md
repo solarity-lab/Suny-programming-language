@@ -488,7 +488,6 @@ The runtime supports both implicit and explicit type conversion:
 Conversion behavior is well-defined for all type pairs, ensuring predictable program behavior across different execution contexts.
 
 ---
-
 # 5 The Language
           
 ## 1. Introduction
@@ -553,7 +552,7 @@ print("Hello, Suny!")
 
 i = 1
 while i <= 5 do
-    print("Count: %s" % string(i))
+    print("Count: " + string(i))
     i = i + 1
 end
 ```
@@ -633,7 +632,7 @@ The `print` function is versatile. Here are a few variations:
 
 ```suny
 print(123)                          # prints a number
-print("Suny %s" % "Language")       # sub string with %
+print("Suny " + "Language")         # you can sub string using '+'
 print(10 + 20)                      # prints the result of an expression
 print(null)                         # prints "null"
 ```
@@ -984,7 +983,7 @@ score = 0   # global variable
 function add_points(points) do
     local_bonus = 2      # local variable
     score = score + points + local_bonus
-    print("Added: %s, Current score: %s" % string(points) % string(score))
+    print("Added: " + string(points) + ", Current score: " + string(score))
 end
 
 add_points(5)   # Added 5 points. Current score: 7
@@ -1084,7 +1083,7 @@ d = -0.5     # float
 ### 5.3 Strings
 
 Strings represent **text**.
-They are sequences of characters enclosed in **double quotes** `" "` or **single quotes** `' '`.
+They are sequences of characters enclosed in **double quotes** `" "`
 
 ```suny
 name = "Dinh Son Hai"
@@ -1133,27 +1132,6 @@ end
 | `\\`   | Backslash    | `"C:\\Path\\File"`  | C:\Path\File   |
 | `\"`   | Double quote | `"He said: \"Hi\""` | He said: "Hi"  |
 | `\'`   | Single quote | `'It\'s sunny'`     | It's sunny     |
-
-#### String Formatting (Formatting with `%`)
-
-Strings can be formatted using the `%` operator.
-
-```
-name = "Hai"
-print("Hello my name is %s" % name)
-```
-
-**Output:**
-
-```
-Hello my name is Hai
-```
-
-**Notes:**
-
-* %s is a placeholder for a string value
-
-* string(value) converts numbers to strings
 
 ---
 
@@ -1542,7 +1520,7 @@ class Vector do
     end
 
     function __tostring__(self) do
-        return "Vector(%s, %s)" % string(self.x) % string(self.y)
+        return "Vector(" + string(self.x) + ", " + string(self.y) + ")"
     end
 end
 ```
@@ -2101,9 +2079,9 @@ Complex programs often use **if statements inside loops**:
 ```suny
 for i in range(1, 11) then
     if i % 2 == 0 then
-        print("%s is even" % string(i))
+        print(string(i) + " is even")
     else
-        print("%s is odd" % string(i))
+        print(string(i) + " is odd")
     end
 end
 ```
